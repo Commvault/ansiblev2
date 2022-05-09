@@ -1,0 +1,23 @@
+---
+# defaults file for fs_deployment
+webserver_hostname: null
+webserver_username: null
+webserver_password: null
+auth_token: null
+os_type: null
+client_computers: []
+windows_packages: 
+  - FILE_SYSTEM
+unix_packages:
+  - FILE_SYSTEM
+username: null
+password: null
+client_group_name: []
+storage_policy_name: null
+install_path: null
+sw_cache_client: null
+wait_for_job_completion: True
+client: null
+plan: null
+backupset: null
+subclient: null

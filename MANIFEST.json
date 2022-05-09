@@ -1,0 +1,30 @@
+{
+ "collection_info": {
+  "namespace": "commvault",
+  "name": "ansible",
+  "version": "11.24.0",
+  "authors": [
+   "Commvault Systems Inc."
+  ],
+  "readme": "README.md",
+  "tags": [],
+  "description": "Commvault's Ansible collection to help perform common administrative tasks.",
+  "license": [
+   "Apache-2.0"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "https://github.com/Commvault/ansible",
+  "documentation": "http://docs.example.com",
+  "homepage": "https://github.com/Commvault",
+  "issues": "https://github.com/Commvault/ansible/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "6f6a0c1c2dfe107b12f8c08513fece86f2376bcff0031f10bd7164df4c5ead08",
+  "format": 1
+ },
+ "format": 1
+}

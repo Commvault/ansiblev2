@@ -1,0 +1,22 @@
+# collections/ansible_collections/ns/coll/meta/runtime.yml
+action_groups:
+  session:
+    - login
+    - logout
+    - deployment.download_software
+    - deployment.install_software
+    - deployment.push_updates
+    - file_servers.backup
+    - file_servers.manage_content
+    - file_servers.manage_plan
+    - file_servers.restore
+    - job.kill
+    - job.resume
+    - job.status
+    - job.suspend
+    - plans.add
+    - plans.delete
+    - storage.disk.add
+    - workflow.deploy
+    - workflow.execute
+    - workflow.export

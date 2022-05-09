@@ -1,0 +1,8 @@
+---
+- name: Associating Plan to the Clients
+  commvault.ansible.file_servers.manage_plan:
+    client: "{{ item }}"
+    plan: "{{ plan }}"
+    backupset: "{{ backupset }}"
+    subclient: "{{ subclient }}"
+  loop: "{{ client_computers }}"

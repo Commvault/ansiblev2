@@ -1,0 +1,14 @@
+---
+- name: Push Install File System Package
+  commvault.ansible.deployment.install_software:
+    os_type: "{{ os_type }}"
+    client_computers: "{{ client_computers }}"
+    windows_packages: "{{ windows_packages }}"
+    unix_packages: "{{ unix_packages }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    client_group_name: "{{ client_group_name }}"
+    storage_policy_name: "{{ storage_policy_name }}"
+    install_path: "{{ install_path }}"
+    sw_cache_client: "{{ sw_cache_client }}"
+    wait_for_job_completion: True
