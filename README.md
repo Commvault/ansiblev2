@@ -1,9 +1,22 @@
 # Ansible Collection - commvault.ansible
+----
+  * [Requirements](#require)
+  * [Folder Structure](#folder)
   * [Contribution Guidelines](#contrib)
   * [License](#license)
   * [About Commvault](#about)
   * [Documentation](#docs)
 
+## Requirements <a name="require"></a>
+----
+1. Ansible
+2. Python 3.6+
+3. [CVPySDK](https://github.com/Commvault/cvpysdk)
+4. Commvault Software v11 SP16+ with Webconsole package installed
+
+## Folder Structure <a name="folder"></a>
+----
+Clone this repository in the given location ``<Default Ansible Collection Location>/ansible_collections/commvault/`` and rename the repo folder from ``ansiblev2`` to ``ansible``
 
 ## Contribution Guidelines <a name="contrib"></a>
 ----
