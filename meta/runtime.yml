@@ -17,6 +17,7 @@ action_groups:
     - plans.add
     - plans.delete
     - storage.disk.add
+    - workflow.import
     - workflow.deploy
     - workflow.execute
     - workflow.export
