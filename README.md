@@ -86,6 +86,8 @@ Commvault software assists organizations with data backup and recovery, cloud an
 
   * [commvault.ansible.job.suspend - suspends the job](#commvault.ansible.job.suspend)
 
+  * [commvault.ansible.workflow.import - imports a workflow to the commcell.](#commvault.ansible.workflow.import)
+
   * [commvault.ansible.workflow.deploy - deploys a workflow on the commcell.](#commvault.ansible.workflow.deploy)
 
   * [commvault.ansible.workflow.execute - executes the workflow with the workflow name and inputs](#commvault.ansible.workflow.execute)
@@ -1696,6 +1698,91 @@ wait_for_job_to_suspend  |   no  |  False  | |  wait until job status is changed
     webserver_username: "user"
     webserver_password: "CS-Password"
     job_id: 23
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+## commvault.ansible.workflow.import <a name="commvault.ansible.workflow.import"></a>
+Imports a workflow to the Commcell.
+
+
+#### Synopsis
+ Imports a workflow to the Commcell.
+ commvault.ansible.workflow.import module can be used in playbooks to import a workflow to the Commcell.
+
+
+
+
+
+
+
+
+
+
+
+
+#### Options
+| Parameter     | required    | default  | choices    | comments |
+| ------------- |-------------| ---------|----------- |--------- |
+webserver_hostname  |   no  |  | |  Hostname of the Web Server. | 
+webserver_username  |   no  |  | |  Username | 
+webserver_password  |   no  |  | |  Password | 
+workflow_xml_path  |   yes  |  | |  path of the workflow xml file / XMl contents | 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Examples
+
+```
+# Imports a workflow to the Commcell.
+
+- name: "IMPORT_WORKFLOW"
+  commvault.ansible.workflow.import:
+    workflow_xml_path:  "C:\TempDir"
+
+- name: "IMPORT_WORKFLOW"
+  commvault.ansible.workflow.import:
+    workflow_xml_path:  "C:\TempDir"
+
+- name: "IMPORT_WORKFLOW"
+  commvault.ansible.workflow.import:
+    webserver_hostname: "demo-CS-Name"
+    webserver_username: "user"
+    webserver_password: "CS-Password"
+    workflow_xml_path:  "C:\TempDir"
 
 
 ```
