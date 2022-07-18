@@ -31,13 +31,13 @@ options:
         type: str
         required: false
 
-    webserver_username:
+    commcell_username:
         description:
             - Username 
         type: str
         required: false    
 
-    webserver_password:
+    commcell_password:
         description:
             - Password 
         type: str
@@ -133,8 +133,8 @@ EXAMPLES = '''
 - name: "PUSH_UPDATES"
   commvault.ansible.deployment.push_updates:
     webserver_hostname: "demo-CS-Name"
-    webserver_username: "user"
-    webserver_password: "CS-Password"
+    commcell_username: "user"
+    commcell_password: "CS-Password"
     client_names: 
       - clientname1
       - clientname2

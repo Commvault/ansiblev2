@@ -28,19 +28,19 @@ options:
   - Hostname of the Web Server.
   type: str
   required: true 
- webserver_username:
+ commcell_username:
   description:
-  - Webserver Username. 
+  - Commcell username. 
   type: str
   required: false    
- webserver_password:
+ commcell_password:
   description:
-  - Webserver Password. 
+  - Commcell password. 
   type: str
   required: false    
  auth_token:
   description:
-  - A authentication token that can be used in place of webserver_username and webserver_password to login.
+  - A authentication token that can be used in place of commcell_username and commcell_password to login.
   type: str
   required: false
 author:
@@ -51,8 +51,8 @@ EXAMPLES = r'''
 - name: Log in to the Commcell
   commvault.ansible.login:
     webserver_hostname: 'web_server_hostname' 
-    webserver_username: 'user'
-    webserver_password: 'password'
+    commcell_username: 'user'
+    commcell_password: 'password'
 '''
 
 RETURN = r'''
@@ -72,8 +72,10 @@ def main():
 
     module_args = dict(
         webserver_hostname=dict(type=str, required=True),
+        commcell_username=dict(type=str, required=False),
+        commcell_password=dict(type=str, required=False, no_log=True),
         webserver_username=dict(type=str, required=False),
-        webserver_password=dict(type=str, required=False),
+        webserver_password=dict(type=str, required=False, no_log=True),
         auth_token=dict(type=str, required=False)
     )
 

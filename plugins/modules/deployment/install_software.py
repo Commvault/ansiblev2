@@ -31,13 +31,13 @@ options:
         type: str
         required: false
 
-    webserver_username:
+    commcell_username:
         description:
             - Username 
         type: str
         required: false    
 
-    webserver_password:
+    commcell_password:
         description:
             - Password 
         type: str
@@ -119,6 +119,13 @@ options:
         required: false
         default: None
 
+    ma_index_cache_loaction:
+        description:
+            - Index Cache location of the Media Agent package
+        type: str
+        required: false
+        default: None
+
     wait_for_job_completion:
         description:
             - Will wait for Download Job to Complete
@@ -157,8 +164,8 @@ EXAMPLES = '''
 - name: "INSTALL_SOFTWARE/PUSH_INSTALL_WINDOWS"
   commvault.ansible.deployment.install_software:
     webserver_hostname: "demo-CS-Name"
-    webserver_username: "user"
-    webserver_password: "CS-Password"
+    commcell_username: "user"
+    commcell_password: "CS-Password"
     os_type: "unix"
     client_computers:
       - hostname1.example.com
@@ -179,8 +186,8 @@ EXAMPLES = '''
 - name: "INSTALL_SOFTWARE/PUSH_INSTALL_UNIX"
   commvault.ansible.deployment.install_software:
     webserver_hostname: "demo-CS-Name"
-    webserver_username: "user"
-    webserver_password: "CS-Password"
+    commcell_username: "user"
+    commcell_password: "CS-Password"
     os_type: "unix"
     client_computers:
       - hostname1.example.com
@@ -195,6 +202,7 @@ EXAMPLES = '''
       - random_group2
       - random_group3
     install_path: "/opt/commvault/ansibledeployment"
+    ma_index_cache_location: "/opt/commvault/ma_index_cache"
     sw_cache_client: "RemoteCacheClient1"
 
 notes: 
@@ -237,7 +245,8 @@ def main():
             client_group_name=dict(type=list, required=False, default=None),
             storage_policy_name=dict(type=str, required=False, default=None),
             sw_cache_client=dict(type=str, required=False, default=None),
-            wait_for_job_completion=dict(type=bool, required=False, default=True)
+            wait_for_job_completion=dict(type=bool, required=False, default=True),
+            ma_index_cache_location=dict(type=str, required=False, default=None),
         )
                         
         module = CVAnsibleModule(argument_spec=module_args)
@@ -254,6 +263,7 @@ def main():
         storage_policy_name=module.params['storage_policy_name']
         sw_cache_client=module.params['sw_cache_client']
         wait_for_job_completion = module.params['wait_for_job_completion']
+        ma_index_cache_location = module.params['ma_index_cache_location']
 
         windows_features=unix_features=None
 
@@ -296,7 +306,8 @@ def main():
                         install_path=install_path,
                         client_group_name=client_group_name,
                         storage_policy_name=storage_policy_name,
-                        sw_cache_client=sw_cache_client)
+                        sw_cache_client=sw_cache_client,
+                        index_cache_location=ma_index_cache_location)
         
         job_id = install_job.job_id
         module.result['job_id'] = str(job_id)

@@ -28,14 +28,14 @@ options:
   - Hostname of the Web Server. 
   type: str
   required: false
- webserver_username:
+ commcell_username:
   description:
-  - Webserver Username 
+  - Commcell username 
   type: str
   required: false    
- webserver_password:
+ commcell_password:
   description:
-  - Webserver Password 
+  - Commcell password 
   type: str
   required: false
  client:
@@ -99,8 +99,8 @@ EXAMPLES = r'''
 - name: Run an In-Place File System Restore for subclient 'user_subclient' of backupset 'user_backupset'.
   commvault.ansible.file_servers.restore:
     webserver_hostname: "web_server_hostname"
-    webserver_username: "user"
-    webserver_password: "password"
+    commcell_username: "user"
+    commcell_password: "password"
     client: "client_name"
     backupset: "user_backupset"
     subclient: "user_subclient"

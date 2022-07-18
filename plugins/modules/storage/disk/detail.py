@@ -19,10 +19,10 @@
 
 DOCUMENTATION = r'''
 ---
-module: commvault.ansible.plans.delete
-short_description: Deletes a plan
+module: commvault.ansible.storage.disk.detail
+short_description: Gets details of a disk storage
 description: 
- - This module deletes a Plan in the CommCell
+ - This module gets details of a given disk storage
 options:
   webserver_hostname:
     description:
@@ -33,7 +33,7 @@ options:
     description:
       - Commcell username 
     type: str
-    required: false
+    required: false    
   commcell_password:
     description:
       - Commcell password 
@@ -41,7 +41,7 @@ options:
     required: false
   name:
     description:
-      - The name of the plan to delete.
+      - The name of the disk storage pool.
     type: str
     required: true
 author:
@@ -49,19 +49,24 @@ author:
 '''
 
 EXAMPLES = '''
-- name: Deleting plan
-  commvault.ansible.plans.delete:
-    name: "Plan 1"
+- name: "Getting details of disk storage"
+  commvault.ansible.storage.disk.detail:
+    name: "storage2"
 
-- name: Deleting plan
-  commvault.ansible.plans.delete:
+- name: "Getting details of disk storage"
+  commvault.ansible.storage.disk.detail:
     webserver_hostname: "web_server_hostname" 
     commcell_username: "user"  
     commcell_password: "password"
-    name: "Plan 1"
+    name: "storage2"
 '''
 
-RETURN = r''' # '''
+RETURN = r'''
+detail:
+    description: Details of the disk storage
+    returned: Success
+    type: dict
+'''
 
 from ansible_collections.commvault.ansible.plugins.module_utils.cv_ansible_module import CVAnsibleModule
 
@@ -84,19 +89,17 @@ def main():
 
     try:
 
-        all_plans = module.commcell.plans
+        all_storage_pools = module.commcell.storage_pools
 
-        if not all_plans.has_plan(param_name):
-            module.exit_json(msg=f'Plan [{param_name}] does not exist', **result)
+        if not all_storage_pools.has_storage_pool(param_name):
+            module.exit_json(msg=f'Storage pool [{param_name}] does not exist', **result)
 
         if module.check_mode:
             module.exit_json(**result)
 
-        all_plans.delete(
-            plan_name=param_name
-        )
+        storage_pool_detail = all_storage_pools.get(param_name).storage_pool_properties
 
-        result['changed'] = True
+        result['detail'] = storage_pool_detail
 
         module.exit_json(**result)
 

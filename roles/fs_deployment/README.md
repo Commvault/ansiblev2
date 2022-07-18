@@ -15,8 +15,8 @@ Documentation for the Role "File System Deployment".
 | Parameter     | required    | default  | choices    | comments |
 | ------------- |-------------| ---------|----------- |--------- |
 webserver_hostname  |   no  |  | |  Hostname of the Web Server. | 
-webserver_username  |   no  |  | |  Webserver Username | 
-webserver_password  |   no  |  | |  Webserver Password | 
+commcell_username  |   no  |  | |  Commcell username | 
+commcell_password  |   no  |  | |  Commcell password | 
 os_type  |  yes  |  | <ul> <li>windows</li>  <li>unix</li>  |  Operating System type  |
 client_computers  |   yes  |  | |  Hostname of the computers to push File System Package |
 windows_package  |   no  |  FILE_SYSTEM  | <ul> <li>ACTIVE_DIRECTORY</li>  <li>CLOUD_APPS</li>  <li>DOMINO_DATABASE</li>  <li>EXCHANGE</li>  <li>FILE_SYSTEM</li>  <li>MEDIA_AGENT</li>  <li>SHAREPOINT</li>  <li>ORACLE</li>  <li>POSTGRESQL</li>  <li>SQLSERVER</li>  <li>VIRTUAL_SERVER</li>  <li>VSS_PROVIDER</li>  <li>WEB_CONSOLE</li>  <li>TEST_AUTOMATION</li>  <li>PYTHON_SDK</li>  <li>COMMSERVE_LITE</li>  <li>CONTENT_ANALYZER</li> </ul> |  list of windows features to be installed | 
@@ -43,8 +43,8 @@ subclient  |   no  |  | |  The name of the subclient. |
       vars:
         os_type: "windows"
         webserver_hostname: "demo-CS-Name"
-        webserver_username: "webconsole_user"
-        webserver_password: "webconsole_password"
+        commcell_username: "commcell_user"
+        commcell_password: "commcell_password"
         client_computers:
           - democs.example.com
           - x.x.x.x

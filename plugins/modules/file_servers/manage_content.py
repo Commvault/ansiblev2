@@ -29,14 +29,14 @@ options:
   - Hostname of the Web Server. 
   type: str
   required: false
- webserver_username:
+ commcell_username:
   description:
-  - Webserver Username 
+  - Commcell username 
   type: str
   required: false    
- webserver_password:
+ commcell_password:
   description:
-  - Webserver Password 
+  - Commcell password 
   type: str
   required: false
  client:
@@ -82,8 +82,8 @@ EXAMPLES = r'''
 - name: Update a File System subclient's content and filter.
   commvault.ansible.file_servers.manage_content:
     webserver_hostname: "web_server_hostname" 
-    webserver_username: "user"  
-    webserver_password: "password"
+    commcell_username: "user"  
+    commcell_password: "password"
     client: "client_name"
     backupset: "user_backupset"
     subclient: "user_subclient"

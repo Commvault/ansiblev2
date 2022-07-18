@@ -3,6 +3,7 @@ action_groups:
   session:
     - login
     - logout
+    - request
     - deployment.download_software
     - deployment.install_software
     - deployment.push_updates
@@ -17,6 +18,7 @@ action_groups:
     - plans.add
     - plans.delete
     - storage.disk.add
+    - storage.disk.detail
     - workflow.import
     - workflow.deploy
     - workflow.execute

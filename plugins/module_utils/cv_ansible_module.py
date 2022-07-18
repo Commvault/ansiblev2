@@ -62,8 +62,10 @@ class CVAnsibleModule(AnsibleModule):
         self.result = {}
         self.login_args = {
             'webserver_hostname': dict(type=str, required=False),
+            'commcell_username': dict(type=str, required=False),
+            'commcell_password': dict(type=str, required=False, no_log=True),
             'webserver_username': dict(type=str, required=False),
-            'webserver_password': dict(type=str, required=False),
+            'webserver_password': dict(type=str, required=False, no_log=True),
             'auth_token': dict(type=str, required=False),
             'session_id': dict(type=str, required=False)
         }
@@ -80,7 +82,8 @@ class CVAnsibleModule(AnsibleModule):
             super().__init__(argument_spec=self.argument_spec, supports_check_mode=True, **kwargs)
 
             # Verifying credentials & auth_token manually instead of built in mutually_exclusive, required_by etc.
-            creds = all([self.params[key] for key in ['webserver_hostname', 'webserver_username', 'webserver_password']])
+            creds = all([self.params.get(key) for key in ['webserver_hostname', 'commcell_username', 'commcell_password']]) \
+                        ^ all([self.params.get(key) for key in ['webserver_hostname', 'webserver_username', 'webserver_password']])
             auth_token = all([self.params[key] for key in ['webserver_hostname', 'auth_token']])
 
             # Figure out the session ID
@@ -88,7 +91,7 @@ class CVAnsibleModule(AnsibleModule):
             self.session_file_path = FILE_PATH.format(SESSION_ID=session_id)
 
             if creds and auth_token:
-                result = {"msg": "Both auth_token & webserver_username\\webserver_password provided."}
+                result = {"msg": "Both auth_token & commcell_username\\commcell_password provided."}
                 self.fail_json(**result)
 
             # 1st priority --> is for module level arguments
@@ -122,9 +125,9 @@ class CVAnsibleModule(AnsibleModule):
 
                     webserver_hostname  (str)   --  Hostname of the Web Server.
 
-                    webserver_username  (str)   --  Username for log in to the Commcell console.
+                    commcell_username  (str)   --  Username for log in to the Commcell console.
 
-                    webserver_password  (str)   --  Plain-text password for log in to the console.
+                    commcell_password  (str)   --  Plain-text password for log in to the console.
 
                     authtoken           (str)   --  QSDK/SAML token for log in to the console.
 
@@ -134,8 +137,8 @@ class CVAnsibleModule(AnsibleModule):
 
             return Commcell(
                 webconsole_hostname=kwargs['webserver_hostname'],
-                commcell_username=kwargs['webserver_username'],
-                commcell_password=kwargs['webserver_password'],
+                commcell_username=kwargs.get('commcell_username') or kwargs.get('webserver_username'),
+                commcell_password=kwargs.get('commcell_password') or kwargs.get('webserver_password'),
                 authtoken=kwargs.get('auth_token')
             )
 

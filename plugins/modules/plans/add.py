@@ -29,14 +29,14 @@ options:
       - Hostname of the Web Server. 
     type: str
     required: false
-  webserver_username:
+  commcell_username:
     description:
-      - Webserver username 
+      - Commcell username 
     type: str
     required: false 
-  webserver_password:
+  commcell_password:
     description:
-      - Webserver password 
+      - Commcell password 
     type: str
     required: false
   name:
@@ -89,8 +89,8 @@ EXAMPLES = '''
 - name: Creating a "Server" plan with 2 days RPO
   commvault.ansible.plans.add:
     webserver_hostname: "web_server_hostname" 
-    webserver_username: "user"  
-    webserver_password: "password"
+    commcell_username: "user"  
+    commcell_password: "password"
     name: "Plan 1"
     type: "Server"
     storage_pool_name: "storage2"

@@ -1,8 +1,8 @@
 ---
 # defaults file for fs_deployment
 webserver_hostname: null
-webserver_username: null
-webserver_password: null
+commcell_username: null
+commcell_password: null
 auth_token: null
 os_type: null
 client_computers: []

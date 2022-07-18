@@ -31,13 +31,13 @@ options:
         type: str
         required: false
 
-    webserver_username:
+    commcell_username:
         description:
             - Username 
         type: str
         required: false    
 
-    webserver_password:
+    commcell_password:
         description:
             - Password 
         type: str
@@ -74,8 +74,8 @@ EXAMPLES = '''
 - name: "EXPORT_WORKFLOW"
   commvault.ansible.workflow.export:
     webserver_hostname: "demo-CS-Name"
-    webserver_username: "user"
-    webserver_password: "CS-Password"
+    commcell_username: "user"
+    commcell_password: "CS-Password"
     workflow_name: "client check readiness"
     export_location: "C:\TempDir"
 
