@@ -127,6 +127,8 @@ webserver_hostname  |   yes  |  | |  Hostname of the Web Server. |
 commcell_username  |   no  |  | |  Commcell username. | 
 commcell_password  |   no  |  | |  Commcell password. | 
 auth_token  |   no  |  | |  A authentication token that can be used in place of commcell_username and commcell_password to login. | 
+force_https  |   no  | False | |  Force connection to commcell via HTTPS only | 
+certificate_path  |   no  |  | |  path of the CA_BUNDLE or directory with certificates of trusted CAs (including trusted self-signed certificates) | 
 
 
 

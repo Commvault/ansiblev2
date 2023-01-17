@@ -67,7 +67,9 @@ class CVAnsibleModule(AnsibleModule):
             'webserver_username': dict(type=str, required=False),
             'webserver_password': dict(type=str, required=False, no_log=True),
             'auth_token': dict(type=str, required=False),
-            'session_id': dict(type=str, required=False)
+            'session_id': dict(type=str, required=False),
+            'force_https': dict(type=bool, required=False, default=False),
+            'certificate_path': dict(type=str, required=False),
         }
 
         # By default we will always try to create a Commcell object.
@@ -139,7 +141,9 @@ class CVAnsibleModule(AnsibleModule):
                 webconsole_hostname=kwargs['webserver_hostname'],
                 commcell_username=kwargs.get('commcell_username') or kwargs.get('webserver_username'),
                 commcell_password=kwargs.get('commcell_password') or kwargs.get('webserver_password'),
-                authtoken=kwargs.get('auth_token')
+                authtoken=kwargs.get('auth_token'),
+                force_https=kwargs.get('force_https', False),
+                certificate_path=kwargs.get('certificate_path'),
             )
 
         except (ModuleNotFoundError, ImportError):
