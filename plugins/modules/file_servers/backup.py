@@ -118,10 +118,7 @@ def main():
         backupset = agent.backupsets.get(agent.backupsets.default_backup_set if not module.params.get('backupset') else module.params.get('backupset'))
         subclient = backupset.subclients.get(backupset.subclients.default_subclient if not module.params.get('subclient') else module.params.get('subclient'))
         backup_level = module.params.get('backup_level', 'incremental')
-        if backup_level:
-          backup = subclient.backup(backup_level=backup_level)
-        else:
-          backup = subclient.backup()
+        backup = subclient.backup(backup_level=backup_level)
         module.result['job_id'] = str(backup.job_id)
         module.result['changed'] = True
 
