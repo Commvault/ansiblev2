@@ -896,6 +896,7 @@ commcell_password  |   no  |  | |  Commcell password |
 client  |   yes  |  | |  The name of the Client. | 
 backupset  |   no  |  default backupset  | |  The name of the backupset. | 
 subclient  |   no  |  subclient named default.  | |  The name of the subclient. | 
+backup_level  |  no  |  Incremental  |  <ul>  <li>Full</li> <li>Incremental</li> <li>Differential</li> <li>Synthetic_full</li> </ul>  |  Backup Level.  |
 
 
 
@@ -921,24 +922,24 @@ job_id |  On success  |   str  |   Backup job ID  |   2016  |
 #### Examples
 
 ```
-- name: Run a File System Backup for default subclient of default backupset, session file would be used.
+- name: Run an incremental(default) File System Backup for default subclient of default backupset, session file would be used.
   commvault.ansible.file_servers.backup:
     client: "client_name"
 
-- name: Run a File System Backup for subclient 'user_subclient' of backupset 'user_backupset', session file would be used.
+- name: Run an incremental(default) File System Backup for subclient 'user_subclient' of backupset 'user_backupset', session file would be used.
   commvault.ansible.file_servers.backup:
     client: "client_name"
     backupset: "user_backupset"
     subclient: "user_subclient"
         
-- name: Run a File System Backup for default subclient of default backupset.
+- name: Run an incremental(default) File System Backup for default subclient of default backupset.
   commvault.ansible.file_servers.backup:
     webserver_hostname: "web_server_hostname" 
     commcell_username: "user"  
     commcell_password: "password"
     client: "client_name"
 
-- name: Run a File System Backup for subclient 'user_subclient' of backupset 'user_backupset'.
+- name: Run an incremental(default) File System Backup for subclient 'user_subclient' of backupset 'user_backupset'.
   commvault.ansible.file_servers.backup:
     webserver_hostname: "web_server_hostname" 
     commcell_username: "user"  
@@ -946,6 +947,16 @@ job_id |  On success  |   str  |   Backup job ID  |   2016  |
     client: "client_name"
     backupset: "user_backupset"
     subclient: "user_subclient"
+
+- name: Run a full File System Backup for subclient 'user_subclient' of backupset 'user_backupset' specifying 'backup_level' as Full.
+  commvault.ansible.file_servers.backup:
+    webserver_hostname: "web_server_hostname"
+    commcell_username: "user"
+    commcell_password: "password"
+    client: "client_name"
+    backupset: "user_backupset"
+    subclient: "user_subclient"
+    backup_level: "Full"
 
 
 ```

@@ -105,7 +105,8 @@ def main():
     module_args = dict(
         client=dict(type=str, required=True),
         backupset=dict(type=str, required=False),
-        subclient=dict(type=str, required=False)
+        subclient=dict(type=str, required=False),
+        backup_level=dict(type=str, required=False)
     )
 
     module = CVAnsibleModule(argument_spec=module_args)
@@ -116,7 +117,8 @@ def main():
         agent = client.agents.get('File System')
         backupset = agent.backupsets.get(agent.backupsets.default_backup_set if not module.params.get('backupset') else module.params.get('backupset'))
         subclient = backupset.subclients.get(backupset.subclients.default_subclient if not module.params.get('subclient') else module.params.get('subclient'))
-        backup = subclient.backup()
+        backup_level = module.params.get('backup_level', 'incremental')
+        backup = subclient.backup(backup_level=backup_level)
         module.result['job_id'] = str(backup.job_id)
         module.result['changed'] = True
 
