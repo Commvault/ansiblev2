@@ -896,7 +896,7 @@ commcell_password  |   no  |  | |  Commcell password |
 client  |   yes  |  | |  The name of the Client. | 
 backupset  |   no  |  default backupset  | |  The name of the backupset. | 
 subclient  |   no  |  subclient named default.  | |  The name of the subclient. | 
-backup_level  |  no  |  Incremental  |  <ul> <li></li>  <li>Full</li> <li>Incremental</li> <li>Differential</li> <li>Synthetic_full</li> </ul>  |  Backup Level.  |
+backup_level  |  no  |  Incremental  |  <ul>  <li>Full</li> <li>Incremental</li> <li>Differential</li> <li>Synthetic_full</li> </ul>  |  Backup Level.  |
 
 
 
