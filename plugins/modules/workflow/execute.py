@@ -98,7 +98,7 @@ EXAMPLES = '''
 
 RETURN = r'''
 job_id:
-    description: Download Software Job ID
+    description: Relevant workflow job ID (-1 if N/A)
     returned: success
     type: str 
     sample: '2016'
@@ -106,7 +106,10 @@ job_id:
 '''
 
 from ansible_collections.commvault.ansible.plugins.module_utils.cv_ansible_module import CVAnsibleModule
-
+try:
+    from cvpysdk.job import Job
+except ModuleNotFoundError:
+    pass
 
 def main():
 
@@ -138,17 +141,21 @@ def main():
         else:
             raise Exception("Workflow not found on commcell, Please provide a Valid Workflow Name")
 
-        workflow_job = workflow_instance.execute_workflow(workflow_inputs=workflow_inputs,
+        _, workflow_job = workflow_instance.execute_workflow(workflow_inputs=workflow_inputs,
                                                           hidden=hidden_workflow)
 
-        job_id = workflow_job.job_id
-        module.result['job_id'] = str(job_id)
+        if isinstance(workflow_job, Job):
+            job_id = workflow_job.job_id
+            module.result['job_id'] = str(job_id)
 
-        if wait_for_job_completion:
-            if not workflow_job.wait_for_completion():
-                module.result['failed'] = True
-                job_status = workflow_job.delay_reason
-                raise Exception(str(job_status))
+            if wait_for_job_completion:
+                if not workflow_job.wait_for_completion():
+                    module.result['failed'] = True
+                    job_status = workflow_job.delay_reason
+                    raise Exception(str(job_status))
+        else:
+            module.result['job_id'] = -1
+            module.result['status'] = workflow_job
 
         module.result['failed'] = False
         module.result['changed'] = False

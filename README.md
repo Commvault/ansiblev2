@@ -1789,7 +1789,7 @@ hidden_workflow  |   no  |  False  | |  Is the workflow hidden ? |
 #### Returns
 | Name          | Returned    | Type     | Description | Sample |
 | ------------- |-------------| ---------|-----------  |--------|
-job_id |  success  |   str  |   Download Software Job ID  |   2016  |
+job_id |  success  |   str  |   Relevant workflow job ID (-1 if N/A)  |   2016  |
 
 
 
