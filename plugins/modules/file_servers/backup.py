@@ -43,6 +43,11 @@ options:
   -  The name of the Client.
   type: str
   required: true
+ agent_type:
+  description:
+  - The agent type
+  type: str
+  required: false
  backupset:
   description:
   - The name of the backupset.
@@ -85,12 +90,22 @@ EXAMPLES = '''
 
 - name: Run a File System Backup for subclient 'user_subclient' of backupset 'user_backupset'.
   commvault.ansible.file_servers.backup:
-    webserver_hostname: "web_server_hostname" 
+    webserver_hostname: "web_server_hostname"
     commcell_username: "user"  
     commcell_password: "password"
     client: "client_name"
     backupset: "user_backupset"
     subclient: "user_subclient"
+
+- name: Run a File System Backup for subclient 'user_subclient' of backupset 'user_backupset' with agent_type of 'Linux File System'.
+  commvault.ansible.file_servers.backup:
+    webserver_hostname: "web_server_hostname"
+    commcell_username: "user"
+    commcell_password: "password"
+    client: "client_name"
+    backupset: "user_backupset"
+    subclient: "user_subclient"
+    agent_type: "Linux File System"
 
 '''
 
@@ -112,7 +127,8 @@ def main():
         client=dict(type=str, required=True),
         backupset=dict(type=str, required=False),
         subclient=dict(type=str, required=False),
-        backup_level=dict(type=str, required=False)
+        backup_level=dict(type=str, required=False),
+        agent_type=dict(type=str, required=False)
     )
 
     module = CVAnsibleModule(argument_spec=module_args)
@@ -120,7 +136,8 @@ def main():
 
     try:
         client = module.commcell.clients.get(module.params.get('client'))
-        agent = client.agents.get('File System')
+        agent_type = module.params.get('agent_type', 'File System')
+        agent = client.agents.get(agent_type)
         backupset = agent.backupsets.get(agent.backupsets.default_backup_set if not module.params.get('backupset') else module.params.get('backupset'))
         subclient = backupset.subclients.get(backupset.subclients.default_subclient if not module.params.get('subclient') else module.params.get('subclient'))
         backup_level = module.params.get('backup_level', 'incremental')

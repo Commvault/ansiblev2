@@ -43,6 +43,11 @@ options:
   - The name of the client.
   type: str
   required: true
+ agent_type:
+   description:
+   - The agent type
+   type: str
+   required: false
  backupset:
   description:
   - The name of the backupset.
@@ -106,6 +111,19 @@ EXAMPLES = r'''
     subclient: "user_subclient"
     content: "C:\path\of\content"
     in_place: "yes"
+
+- name: Run an In-Place File System Restore for subclient 'user_subclient' of backupset 'user_backupset' with agent_type of 'Linux File System'.
+  commvault.ansible.file_servers.restore:
+    webserver_hostname: "web_server_hostname"
+    commcell_username: "user"
+    commcell_password: "password"
+    client: "client_name"
+    backupset: "user_backupset"
+    subclient: "user_subclient"
+    agent_type: "Linux File System"
+    content: "C:\path\of\content"
+    in_place: "yes"
+
 '''
 
 RETURN = r'''
@@ -125,6 +143,7 @@ def main():
     module_args = dict(client=dict(type=str, required=True),
                        backupset=dict(type=str, required=False),
                        subclient=dict(type=str, required=False),
+                       agent_type=dict(type=str, required=False),
                        content=dict(type=str, required=True),
                        in_place=dict(type=bool, required=False, default=True),
                        destination_path=dict(type=str, required=False),
@@ -136,7 +155,8 @@ def main():
 
     try:
         client = module.commcell.clients.get(module.params.get('client'))
-        agent = client.agents.get('File System')
+        agent_type = module.params.get('agent_type', 'File System')
+        agent = client.agents.get(agent_type)
         backupset = agent.backupsets.get(agent.backupsets.default_backup_set if not module.params.get('backupset') else module.params.get('backupset'))
         subclient = backupset.subclients.get(backupset.subclients.default_subclient if not module.params.get('subclient') else module.params.get('subclient'))
         content = module.params.get('content')
