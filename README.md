@@ -896,7 +896,8 @@ commcell_password  |   no  |  | |  Commcell password |
 client  |   yes  |  | |  The name of the Client. | 
 backupset  |   no  |  default backupset  | |  The name of the backupset. | 
 subclient  |   no  |  subclient named default.  | |  The name of the subclient. | 
-backup_level  |  no  |  Incremental  |  <ul>  <li>Full</li> <li>Incremental</li> <li>Differential</li> <li>Synthetic_full</li> </ul>  |  Backup Level.  |
+backup_level  |  no  |  Incremental  |  <ul> <li>Full</li> <li>Incremental</li> <li>Differential</li> <li>Synthetic_full</li> </ul>  |  Backup Level.  |
+agent_type  |  no  |  File System  | <ul> <li>File System</li> <li>Linux File System</li> </ul>  |  Agent Type.  |
 
 
 
@@ -947,6 +948,16 @@ job_id |  On success  |   str  |   Backup job ID  |   2016  |
     client: "client_name"
     backupset: "user_backupset"
     subclient: "user_subclient"
+
+- name: Run an incremental(default) File System Backup for subclient 'user_subclient' of backupset 'user_backupset'i with agent_type of Linux File System.
+  commvault.ansible.file_servers.backup:
+    webserver_hostname: "web_server_hostname"
+    commcell_username: "user"
+    commcell_password: "password"
+    client: "client_name"
+    backupset: "user_backupset"
+    subclient: "user_subclient"
+    agent_type: "Linux File System"
 
 - name: Run a full File System Backup for subclient 'user_subclient' of backupset 'user_backupset' specifying 'backup_level' as Full.
   commvault.ansible.file_servers.backup:
@@ -1105,6 +1116,7 @@ commcell_password  |   no  |  | |  Commcell password |
 client  |   yes  |  | |  The name of the client. | 
 backupset  |   no  |  default backupset  | |  The name of the backupset. | 
 subclient  |   no  |  subclient named 'default'.  | |  The name of the subclient. | 
+agent_type  |  no  |  File System  | <ul> <li>File System</li> <li>Linux File System</li> </ul>  |  Agent Type.  |
 content  |   yes  |  | |  The path of the content that needs to be restored. | 
 in_place  |   no  |  True  | <ul> <li>true</li>  <li>false</li> </ul> |  Whether the content needs to be restored in place i.e. restored back to the source location. | 
 destination_path  |   no  |  | |  Destination path in case the content needs to be restored to another location. | 
@@ -1145,6 +1157,14 @@ job_id |  On success  |   str  |   Restore job ID  |   2017  |
     backupset: "user_backupset"
     subclient: "user_subclient"
     content: "C:\path\of\content"
+
+- name: Run a File System Restore for subclient 'user_subclient' of backupset 'user_backupset' and agent_type of Linux File System, session file will be used.
+  commvault.ansible.file_servers.restore:
+    client: "client_name"
+    backupset: "user_backupset"
+    subclient: "user_subclient"
+    agent_type: "Linux File System"
+    content: "C:\path\of\content"
     
 - name: Run an In-Place File System Restore for subclient 'user_subclient' of backupset 'user_backupset'.
   commvault.ansible.file_servers.restore:
@@ -1156,6 +1176,8 @@ job_id |  On success  |   str  |   Restore job ID  |   2017  |
     subclient: "user_subclient"
     content: "C:\path\of\content"
     in_place: "yes"
+
+
 
 ```
 
