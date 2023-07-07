@@ -1,0 +1,20 @@
+---
+# defaults file for /root/roles/oracle_db_deployment
+webserver_hostname: null
+commcell_username: null
+commcell_password: null
+auth_token: null
+var_storageName: null
+var_mediaAgent: null
+var_mountPath: null
+var_deduplicationDBPath: null
+var_plan: null
+var_clientName: null
+var_dbInst: null
+var_dbUser: null
+var_dbPwd: null
+var_dbPwd2: null
+var_dbHome: null
+var_osUser: null
+var_osPwd: null
+var_osPwd2: null

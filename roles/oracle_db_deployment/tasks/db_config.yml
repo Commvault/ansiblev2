@@ -1,0 +1,140 @@
+# Database deploy and configuration
+---
+- name: "Creating disk Storage"
+  commvault.ansible.storage.disk.add:
+    name: "{{ var_storageName }}"
+    media_agent: "{{ var_mediaAgent }}"
+    mount_path: "{{ var_mountPath }}"
+    deduplication_db_path: "{{ var_deduplicationDBPath }}"
+  tags: storage
+
+- name: "Creating plan"
+  commvault.ansible.plans.add:
+    name: "{{ var_plan }}"
+    type: "Server"
+    storage_pool_name: "{{ var_storageName }}"
+    rpo_minutes: 100
+  register: plan_resp
+  tags: plan
+
+- set_fact:
+    plan_id: "{{plan_resp.id | default(4)}}"
+
+- debug:
+    msg: "Plan id: {{ plan_id }} "
+
+  #add Oracle Server
+- import_tasks:
+    addServer.yml
+
+- name: "Get client id"
+  commvault.ansible.request:
+    method: 'GET'
+    url: '{0}/GetId?clientname={{ var_clientName }}'
+  register: cliIdResp
+
+- set_fact:
+    client_id: "{{ cliIdResp.response.clientId }}"
+
+- debug:
+    msg: "Client id: {{ client_id }} "
+
+- name: "Wait for few secs"
+  ansible.builtin.wait_for:
+    timeout: 5
+  delegate_to: localhost
+
+- name: "Get instance id"
+  commvault.ansible.request:
+    method: 'GET'
+    url: '{0}/instance?clientId={{ client_id }}'
+  register: InstIdResp
+
+- set_fact:
+    instance_id:
+      "{{ InstIdResp.response.instanceProperties[0].instance.instanceId }}"
+    instance_guid:
+      "{{InstIdResp.response.instanceProperties[0].instance.instanceGUID}}"
+
+- debug:
+    msg: "instance id: {{ instance_id }} : {{ instance_guid }}"
+
+- name: "Re-configure the instance"
+  commvault.ansible.request:
+    method: 'POST'
+    url: '{0}/instance/{{ instance_id }}'
+    payload:
+      instanceProperties:
+        instance:
+          instanceId: "{{ instance_id|int }}"
+          applicationId: 22
+          clientId: "{{ client_id|int }}"
+        oracleInstance:
+          oracleUser:
+            userName: "{{ var_osUser }}"
+          oracleHome: "{{var_dbHome|safe}}"
+          sqlConnect:
+            userName: "{{var_dbUser}}"
+            password: "{{var_dbPwd2}}"
+            domainName: "{{ var_dbInst }}"
+            confirmPassword: "{{var_dbPwd2}}"
+            savedCredential: {}
+          useCatalogConnect: false
+          blockSize: 1048576
+          oracleStorageDevice:
+            commandLineStoragePolicy:
+              storagePolicyId: "{{plan_id|int}}"
+              storagePolicyName: "{{var_plan}}"
+            logBackupStoragePolicy:
+              storagePolicyId: "{{plan_id|int}}"
+              storagePolicyName: "{{var_plan}}"
+          crossCheckTimeout: 600
+          oracleWalletAuthentication: false
+        planEntity:
+          planId: "{{plan_id|int}}"
+      association:
+        entity:
+          - displayName: "{{var_clientName}}"
+            clientId: "{{ client_id|int }}"
+            instanceGUID: "{{ instance_guid }}"
+            instanceName: "{{ var_dbInst }}"
+            appName: Oracle
+            applicationId: 22
+            clientName: "{{var_clientName}}"
+            instanceId: "{{ instance_id|int }}"
+  register: reconf_resp
+
+- debug:
+    msg: "reconfigure response: {{ reconf_resp }} "
+
+- name: "Get subclient ID"
+  commvault.ansible.request:
+    method: 'GET'
+    url: '{0}/subclient?clientId={{ client_id }}'
+  register: subCliIDResp
+  when: reconf_resp is defined
+
+- set_fact:
+    subclient_Id: "{{ subCliIDResp.response.\
+        subClientProperties[0].subClientEntity.subclientId }}"
+
+- debug:
+    msg: "subclient id: {{ subclient_Id }} "
+
+- name: "Start Backup"
+  commvault.ansible.request:
+    method: 'POST'
+    url: "{0}/Subclient/{{ subclient_Id }}/\
+          action/backup?backupLevel=Incremental&runIncrementalBackup=false&incrementalLevel=AFTER_SYNTH"
+  register: backupResp
+  when: reconf_resp is defined
+  tags: bkup
+
+- debug:
+    msg: "backup response: {{ backupResp }} "
+
+- name: "Wait for Job Status"
+  commvault.ansible.job.status:
+    job_id: "{{ backupResp.response.jobIds[0] | int }}"
+    wait_for_job_completion: false
+...

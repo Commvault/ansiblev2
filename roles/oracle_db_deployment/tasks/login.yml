@@ -1,0 +1,7 @@
+---
+- name: Login to Web Server
+  commvault.ansible.login:
+    webserver_hostname: "{{ webserver_hostname }}"
+    commcell_username: "{{ commcell_username }} "
+    commcell_password: "{{ commcell_password }}"
+    auth_token: "{{ auth_token }}"

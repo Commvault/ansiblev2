@@ -1,0 +1,4 @@
+---
+# tasks file for /root/roles/oracle_db_deployment
+- import_tasks: login.yml
+- import_tasks: db_config.yml

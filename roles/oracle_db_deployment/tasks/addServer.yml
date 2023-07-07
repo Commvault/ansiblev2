@@ -1,0 +1,91 @@
+---
+- name: "Add Oracle Server"
+  commvault.ansible.request:
+    method: 'POST'
+    url: '{0}/createTask'
+    payload:
+      taskInfo:
+        task:
+          taskFlags:
+            disabled: false
+          taskType: IMMEDIATE
+          initiatedFrom: GUI
+        associations:
+          - clientId: 0
+            commCellId: 2
+        subTasks:
+          - subTask:
+              subTaskType: ADMIN
+              operationType: INSTALL_CLIENT
+            options:
+              adminOpts:
+                updateOption:
+                  rebootClient: true
+                  plan:
+                    planId: "{{ plan_id | int }}"
+                clientInstallOption:
+                  clientDetails:
+                    - clientEntity:
+                        clientId: 0
+                        clientName: "{{ var_clientName }}"
+                        commCellId: 2
+                  installOSType: UNIX
+                  discoveryType: MANUAL
+                  installerOption:
+                    RemoteClient: false
+                    requestType: PRE_DECLARE_CLIENT
+                    User:
+                      userId: 1
+                      userName: admin
+                    Operationtype: INSTALL_CLIENT
+                    CommServeHostName: "{{ webserver_hostname }}"
+                    clientComposition:
+                      - overrideSoftwareCache: false
+                        clientInfo:
+                          client:
+                            cvdPort: 0
+                            evmgrcPort: 0
+                        components:
+                          componentInfo:
+                            - osType: Unix
+                              ComponentId: 1204
+                            - osType: Unix
+                              consumeLicense: false
+                              ComponentId: 1301
+                          commonInfo:
+                            globalFilters: UseCellLevelPolicy
+                          fileSystem:
+                            configureForLaptopBackups: false
+                        packageDeliveryOption: CopyPackage
+                    installFlags:
+                      install32Base: false
+                      disableOSFirewall: false
+                      addToFirewallExclusion: true
+                      killBrowserProcesses: true
+                      ignoreJobsRunning: false
+                      stopOracleServices: false
+                      skipClientsOfCS: false
+                      restoreOnlyAgents: false
+                      overrideClientInfo: true
+                      firewallInstall:
+                        enableFirewallConfig: false
+                        firewallConnectionType: 0
+                        portNumber: 0
+                  clientAuthForJob:
+                    userName: "{{ var_osUser }}"
+                    password: "{{ var_osPwd2 }}"
+                  reuseADCredentials: false
+              commonOpts:
+                subscriptionInfo: <Api_Subscription subscriptionId ="136"/>
+  register: response
+
+- set_fact:
+    jobid_addServer: "{{ response.response.jobIds[0] }}"
+
+- debug:
+    msg: "{{ jobid_addServer }}"
+
+- name: "Wait for Job Status"
+  commvault.ansible.job.status:
+    job_id: "{{ jobid_addServer | int }}"
+    wait_for_job_completion: true
