@@ -43,6 +43,16 @@ options:
   - A authentication token that can be used in place of commcell_username and commcell_password to login.
   type: str
   required: false
+ verify_ssl:
+  description:
+  - Verify the SSL certificate of the commcell.
+  type: bool
+  required: false
+ certificate_path:
+  description:
+  - path of the CA_BUNDLE or directory with certificates of trusted CAs (including trusted self-signed certificates)
+  type: str
+  required: false
 author:
 - Commvault Systems Inc
 '''
@@ -77,7 +87,7 @@ def main():
         webserver_username=dict(type=str, required=False),
         webserver_password=dict(type=str, required=False, no_log=True),
         auth_token=dict(type=str, required=False),
-        force_https=dict(type=bool, required=False, default=False),
+        verify_ssl=dict(type=bool, required=False, default=True),
         certificate_path=dict(type=str, required=False)
     )
 

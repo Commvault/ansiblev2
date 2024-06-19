@@ -1,7 +1,7 @@
 # Ansible Collection - commvault.ansible
 ----
   * [Requirements](#require)
-  * [Folder Structure](#folder)
+  * [Install Instructions](#install)
   * [Contribution Guidelines](#contrib)
   * [License](#license)
   * [About Commvault](#about)
@@ -15,9 +15,12 @@
 3. [CVPySDK](https://github.com/Commvault/cvpysdk)
 4. Commvault Software v11 SP16+ with Webconsole package installed
 
-## Folder Structure <a name="folder"></a>
+## Install Instructions <a name="install"></a>
 ----
-Clone this repository in the given location ``<Default Ansible Collection Location>/ansible_collections/commvault/`` and rename the repo folder from ``ansiblev2`` to ``ansible``
+Install ``cvpysdk`` using the ``requirements.txt`` file by running ``pip install -r requirements.txt``  
+
+You can install this collection from the Ansible Galaxy using the command ``ansible-galaxy collection install commvault.ansible``  
+You can also manually clone this repository in the given location ``<Default Ansible Collection Location>/ansible_collections/commvault/`` and rename the repo folder from ``ansiblev2`` to ``ansible`` to install this collection without using Ansible Galaxy
 
 ## Contribution Guidelines <a name="contrib"></a>
 ----
@@ -132,7 +135,7 @@ webserver_hostname  |   yes  |  | |  Hostname of the Web Server. |
 commcell_username  |   no  |  | |  Commcell username. | 
 commcell_password  |   no  |  | |  Commcell password. | 
 auth_token  |   no  |  | |  A authentication token that can be used in place of commcell_username and commcell_password to login. | 
-force_https  |   no  | False | |  Force connection to commcell via HTTPS only | 
+verify_ssl  |   no  | True | |  Verify the SSL certificate of the commcell. | 
 certificate_path  |   no  |  | |  path of the CA_BUNDLE or directory with certificates of trusted CAs (including trusted self-signed certificates) | 
 
 

@@ -142,7 +142,7 @@ class CVAnsibleModule(AnsibleModule):
                 commcell_username=kwargs.get('commcell_username') or kwargs.get('webserver_username'),
                 commcell_password=kwargs.get('commcell_password') or kwargs.get('webserver_password'),
                 authtoken=kwargs.get('auth_token'),
-                force_https=kwargs.get('force_https', False),
+                verify_ssl=kwargs.get('verify_ssl'),
                 certificate_path=kwargs.get('certificate_path'),
             )
 

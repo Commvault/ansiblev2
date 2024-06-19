@@ -2,7 +2,7 @@
  "collection_info": {
   "namespace": "commvault",
   "name": "ansible",
-  "version": "11.24.0",
+  "version": "1.0.0",
   "authors": [
    "Commvault Systems Inc."
   ],
@@ -14,10 +14,10 @@
   ],
   "license_file": null,
   "dependencies": {},
-  "repository": "https://github.com/Commvault/ansible",
-  "documentation": "http://docs.example.com",
-  "homepage": "https://github.com/Commvault",
-  "issues": "https://github.com/Commvault/ansible/issues"
+  "repository": "https://github.com/Commvault/ansiblev2",
+  "documentation": "https://github.com/Commvault/ansiblev2/tree/main?tab=readme-ov-file#docs",
+  "homepage": "https://github.com/Commvault/ansiblev2",
+  "issues": "https://github.com/Commvault/ansiblev2/issues"
  },
  "file_manifest_file": {
   "name": "FILES.json",

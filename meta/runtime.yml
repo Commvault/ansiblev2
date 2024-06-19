@@ -1,4 +1,18 @@
-# collections/ansible_collections/ns/coll/meta/runtime.yml
+# collections/ansible_collections/commvault/ansible/meta/runtime.yml
+galaxy_info:
+  author: Commvault Systems Inc.
+  description: Commvault's Ansible collection to help perform common administrative tasks.
+  license: Apache-2.0
+  min_ansible_version: 2.10
+  platforms:
+    - name: Linux
+      versions:
+        - all
+  readme: README.md
+  repository: https://github.com/Commvault/ansiblev2
+  
+requires_ansible: '>=2.10.0'
+
 action_groups:
   session:
     - login
