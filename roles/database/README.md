@@ -31,7 +31,9 @@ var_to_date  |  no  |  | | The to date you want to restore database (format : YY
 var_in_place  |   no  |  True  | <ul> <li>true</li>  <li>false</li> </ul> |  Whether the content needs to be restored in place i.e. restored back to the source location. | 
 var_destination_client  |  no  |  | |  Destination client name in case the content needs to be restored to another location. | 
 var_destination_instance  |   no  |  | |  Destination instance name in case the content needs to be restored to another location. | 
-var_commvault_timeout  |   yes  |  | |  Time for timeout | 
+var_commvault_timeout  |   yes  |  | |  Time for timeout |
+var_staging  |  no  |    |  | The staging path  |
+var_restore_path  |  no  |  |  | List of dicts for restore paths of database files. |
 
 
 
@@ -77,6 +79,10 @@ Run playbook: ``` ansible-playbook backup_database.yml -t backup   ```
         var_client: "client_name"
         var_instance: "instance_name"
         var_agent_type: "agent_name"
+        var_staging: "/path/to/staging"
+        var_restore_path:
+          - "|DB1|#12!DB1_rename|#12!DB1|#12!E:RestoreLocationDB1.mdf|#12!C:Program FilesMicrosoft SQL ServerMSSQL10_50.MSSQLSERVERMSSQLDATADB1.mdf"
+          - "|DB1|#12!DB1_rename|#12!DB1_log|#12!E:RestoreLocationDB1_log.ldf|#12!C:Program FilesMicrosoft SQL ServerMSSQL10_50.MSSQLSERVERMSSQLDATADB1_log.ldf"
         var_to_date: "2025/05/16 08:00:00"
         var_commvault_timeout: 300
 ```

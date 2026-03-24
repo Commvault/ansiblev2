@@ -11,9 +11,11 @@ var_backupset: null
 var_subclient: null
 var_backup_level: null
 var_content: []
+var_staging: null
 var_from_date: null
 var_to_date: null
 var_in_place: True
 var_destination_client: null
 var_destination_instance: null
 var_commvault_timeout: null
+var_restore_path: null

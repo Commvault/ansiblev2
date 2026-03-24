@@ -1488,7 +1488,9 @@ to_date  |  no  |  | | The to date you want to restore database (format : YYYY-M
 content  |   no  |  | |  The database name(s) of the content that needs to be restored. | 
 in_place  |   no  |  True  | <ul> <li>true</li>  <li>false</li> </ul> |  Whether the content needs to be restored in place i.e. restored back to the source location. | 
 destination_client  |  no  |  | |  Destination client name in case the content needs to be restored to another location. | 
-destination_instance  |   no  |  | |  Destination instance name in case the content needs to be restored to another location. | 
+destination_instance  |   no  |  | |  Destination instance name in case the content needs to be restored to another location. |
+staging  |  no  |    |  | The staging path  |
+restore_path  |  no  |  |  | List of dicts for restore paths of database files. |
 
 
 
@@ -1553,6 +1555,26 @@ job_id |  On success  |   str  |   Restore job ID  |   2025  |
     in_place: false
     destination_client: "destination_client_name"
     destination_instance: "destination_instance_name"
+
+- name: Run a Database Restore with staging path for default subclient of default backupset, session file will be used.
+  commvault.ansible.database.restore:
+    client: "client_name"
+    instance: "instance_name"
+    agent_type: "mysql"
+    content: "/database_name"
+    staging: "/path/to/staging
+  
+- name: Run a Database Restore out of place for default subclient of default backupset with log path and data path specify, session file will be used.
+  commvault.ansible.database.restore:
+    client: "client_name"
+    instance: "instance_name"
+    agent_type: "sql server"
+    content: "/database_name"
+    destination_instance: "destination_instance"
+    restore_path:
+      - "|original_database_name|#12!restore_database_name|#12!logical_file_name|#12!restore_file_path_with_file_names|#12!original_file_path_with_file_names"
+      - "|DB1|#12!DB1_rename|#12!DB1|#12!E:RestoreLocationDB1.mdf|#12!C:Program FilesMicrosoft SQL ServerMSSQL10_50.MSSQLSERVERMSSQLDATADB1.mdf"
+      - "|DB1|#12!DB1_rename|#12!DB1_log|#12!E:RestoreLocationDB1_log.ldf|#12!C:Program FilesMicrosoft SQL ServerMSSQL10_50.MSSQLSERVERMSSQLDATADB1_log.ldf"
 
 ```
 
